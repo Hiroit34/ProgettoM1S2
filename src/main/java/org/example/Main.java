@@ -45,21 +45,21 @@ public class Main {
 
 
         //Aggiungo qualche elemento alle liste libri/riviste
-        Book libro0 = new Book("000", "Il vecchio che leggeva romanzi d'amore", LocalDate.parse("1989-03-04"), 230, "Luis Sepúlveda", "Narrativa");
-        Book libro1 = new Book("001", "Storia di una gabbianella e del gatto che le insegnò a volare", LocalDate.parse("1988-10-01"), 100, "Luis Sepúlveda", "Narrativa");
-        Book libro2 = new Book("002", "Il maestro e Margherita", LocalDate.parse("1967-10-12"), 120, "Michail Afanas'evič Bulgakov", "Narrativa fantasy");
+        Book book0 = new Book("000", "Il vecchio che leggeva romanzi d'amore", LocalDate.parse("1989-03-04"), 230, "Luis Sepúlveda", "Narrativa");
+        Book book1 = new Book("001", "Storia di una gabbianella e del gatto che le insegnò a volare", LocalDate.parse("1988-10-01"), 100, "Luis Sepúlveda", "Narrativa");
+        Book book2 = new Book("002", "Il maestro e Margherita", LocalDate.parse("1967-10-12"), 120, "Michail Afanas'evič Bulgakov", "Narrativa fantasy");
 
-        Magazine riv1 = new Magazine("004", "Vogue", LocalDate.parse("1892-08-10"), 90, Periodicity.MONTHLY);
-        Magazine riv2 = new Magazine("005", "Art-attack", LocalDate.parse("2000-12-10"), 50, Periodicity.WEEKLY);
-        Magazine riv3 = new Magazine("006", "Rivista dei gatti", LocalDate.parse("2020-11-05"), 80, Periodicity.SIX_MONTHLY);
+        Magazine magazine0 = new Magazine("004", "Vogue", LocalDate.parse("1892-08-10"), 90, Periodicity.MONTHLY);
+        Magazine magazine1 = new Magazine("005", "Art-attack", LocalDate.parse("2000-12-10"), 50, Periodicity.WEEKLY);
+        Magazine magazine2 = new Magazine("006", "Rivista dei gatti", LocalDate.parse("2020-11-05"), 80, Periodicity.SIX_MONTHLY);
 
-        bookList.add(libro0);
-        bookList.add(libro1);
-        bookList.add(libro2);
+        bookList.add(book0);
+        bookList.add(book1);
+        bookList.add(book2);
 
-        magazineList.add(riv1);
-        magazineList.add(riv2);
-        magazineList.add(riv3);
+        magazineList.add(magazine0);
+        magazineList.add(magazine1);
+        magazineList.add(magazine2);
 
         //Archivio sarà una lista formata dall'unione di lista libri e lista riviste
         archive = Stream.concat(bookList.stream(), magazineList.stream()).collect(Collectors.toList());
@@ -229,13 +229,13 @@ public class Main {
         libro.forEach(el-> logger.info("Libro con ISBN " + isbn + ": " + el.toString()));
     }
 
-    //Ricerca x anno di pubblicazione
+    //Ricerca per anno di pubblicazione
     public static void searchByYear(LocalDate anno) {
         Stream<Element> libro  = archive.stream().filter(el-> el.getYearOfPublication().equals(anno));
         libro.forEach(el-> logger.info("Libro pubblicato nel " + anno + ": " + el.toString()));
     }
 
-    //Ricerca x autore
+    //Ricerca per autore
     public static void searchByAuthor(String autore) {
         Stream<Book> libroAutore =
                 archive
@@ -268,8 +268,6 @@ public class Main {
             logger.info(obj[i]);
         }
     }
-
-    //Features extra
 
     //crea isbn
     public static @NotNull String createIsbn(){
