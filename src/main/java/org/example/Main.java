@@ -7,7 +7,6 @@ import data.Periodicity;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -63,8 +62,6 @@ public class Main {
         archivio = Stream.concat(listaLibri.stream(), listaRiviste.stream()).collect(Collectors.toList());
         System.out.println(archivio);
 
-
-
         //MENU
         int start = 1;
 
@@ -103,26 +100,26 @@ public class Main {
                     case 2:
                         System.out.println("Digita ISBN: " );
                         String res2 = sc.nextLine();
-                        rimuoviDaISBN(res2);
+                        removeByIsbn(res2);
                         break;
                     case 3:
                         System.out.println("Digita ISBN: " );
                         String res3 = sc.nextLine();
-                        ricercaDaISBN(res3);
+                        searchByIsbn(res3);
                         break;
                     case 4:
                         System.out.println("Digita anno, mese e giorno(Y-M-D): " );
                         String res4 = sc.nextLine();
-                        ricercaPerAnno(LocalDate.parse(res4));
+                        searchByYear(LocalDate.parse(res4));
                         break;
                     case 5:
                         System.out.println("Digita autore: " );
                         String res5 = sc.nextLine();
-                        ricercaPerAutore(res5);
+                        searchByAuthor(res5);
                         break;
                     case 6:
                         try {
-                            scriviFile();
+                            writeFile();
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -130,14 +127,14 @@ public class Main {
                         break;
                     case 7:
                         try {
-                            leggiFile();
+                            readFile();
                         } catch (IOException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                         break;
                     case 8:
-                        cancellaFile();
+                        deleteFile();
                 }
 
             }catch(NumberFormatException e) {
@@ -146,8 +143,6 @@ public class Main {
         } while (start != 0);
 
         logger.info("Hai chiuso il programma");
-
-
     }
 
 
@@ -161,7 +156,7 @@ public class Main {
 
         if( unknown.get(0).getClass() == Book.class) {
             isbn++;
-            String isbn = createISBN();
+            String newIsbn = createIsbn();
 
             System.out.println("Titolo: ");
             String titolo = sc.nextLine();
@@ -178,13 +173,13 @@ public class Main {
             System.out.println("Genere: ");
             String genere = sc.nextLine();
 
-            archivio.add(new Book(isbn, titolo, anno, numeroPagine, autore, genere));
+            archivio.add(new Book(newIsbn, titolo, anno, numeroPagine, autore, genere));
             logger.info("Libro aggiunto");
             logger.info("Dettagli ibro aggiunto: " + archivio.get((archivio.size())-1).toString());
 
 
         }else if(unknown.get(0).getClass() == Magazine.class) {
-            String isbn = createISBN();
+            String isbn = createIsbn();
 
             System.out.println("Titolo: ");
             String titolo = sc.nextLine();
@@ -220,25 +215,25 @@ public class Main {
     }
 
     //Rimozione di un elemento da ISBN
-    public static void rimuoviDaISBN(String isbn) {
+    public static void removeByIsbn(String isbn) {
         archivio.removeIf(el-> el.getIsbn().equals(isbn));
         logger.info("Elemento rimosso tramite ISBN: " + isbn);
     }
 
     //Ricerca per ISBN
-    public static void ricercaDaISBN(String isbn) {
+    public static void searchByIsbn(String isbn) {
         Stream<Element> libro  = archivio.stream().filter(el-> el.getIsbn().equals(isbn));
         libro.forEach(el-> logger.info("Libro con ISBN " + isbn + ": " + el.toString()));
     }
 
     //Ricerca x anno di pubblicazione
-    public static void ricercaPerAnno(LocalDate anno) {
+    public static void searchByYear(LocalDate anno) {
         Stream<Element> libro  = archivio.stream().filter(el-> el.getYearOfPublication().equals(anno));
         libro.forEach(el-> logger.info("Libro pubblicato nel " + anno + ": " + el.toString()));
     }
 
     //Ricerca x autore
-    public static void ricercaPerAutore(String autore) {
+    public static void searchByAuthor(String autore) {
         Stream<Book> libroAutore =
                 archivio
                         .stream()
@@ -249,7 +244,7 @@ public class Main {
     }
 
     //Salvataggio su disco(scrivi)
-    public static void scriviFile() throws IOException {
+    public static void writeFile() throws IOException {
         archivio.forEach(el-> {
             try {
                 FileUtils.writeStringToFile(fileArchivio, el.toString(), "UTF-8",true);
@@ -262,9 +257,8 @@ public class Main {
 
     }
 
-
     //Caricamento dal disco(leggi)
-    public static void leggiFile() throws IOException {
+    public static void readFile() throws IOException {
         String txtFile = FileUtils.readFileToString(fileArchivio, "UTF-8");
         String[] obj = txtFile.split("#");
         for (int i = 0; i < obj.length; i++) {
@@ -272,19 +266,17 @@ public class Main {
         }
     }
 
-
-
     //Features extra
 
     //crea isbn
-    public static String createISBN(){
+    public static String createIsbn(){
         double d = isbn + Math.random()*Double.MAX_VALUE ;
         String s =String.valueOf(d);
         return s;
     }
 
     //elimina file
-    public static void cancellaFile() {
+    public static void deleteFile() {
         FileUtils.deleteQuietly(fileArchivio);
         System.out.println("File eliminato");
     }
