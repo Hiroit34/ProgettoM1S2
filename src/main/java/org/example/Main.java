@@ -5,6 +5,7 @@ import data.Element;
 import data.Magazine;
 import data.Periodicity;
 import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
@@ -19,20 +20,22 @@ import java.util.stream.Stream;
 public class Main {
     private static int isbn = 6;
 
-    static File fileArchivio = new File("archivio.txt");
+    static File fileArchivio = new File("archive.txt");
 
-    static Scanner sc = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
 
     static Logger logger = LoggerFactory.getLogger(Main.class);
 
-    static List<Element> archivio = new ArrayList<Element>();
-    static List<Book>listaLibri = new ArrayList<Book>();
-    static List<Magazine>listaRiviste = new ArrayList<Magazine>();
+    static List<Element> archive = new ArrayList<Element>();
+    static List<Book>bookList = new ArrayList<Book>();
+    static List<Magazine>magazineList = new ArrayList<Magazine>();
 
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
+        /*
+         TODO Auto-generated method stub
+        creo un file dell'Archivio
+        */
 
-        //creo un file dell'Archivio
         try {
             fileArchivio.createNewFile();
         } catch (IOException e) {
@@ -50,17 +53,17 @@ public class Main {
         Magazine riv2 = new Magazine("005", "Art-attack", LocalDate.parse("2000-12-10"), 50, Periodicity.WEEKLY);
         Magazine riv3 = new Magazine("006", "Rivista dei gatti", LocalDate.parse("2020-11-05"), 80, Periodicity.SIX_MONTHLY);
 
-        listaLibri.add(libro0);
-        listaLibri.add(libro1);
-        listaLibri.add(libro2);
+        bookList.add(libro0);
+        bookList.add(libro1);
+        bookList.add(libro2);
 
-        listaRiviste.add(riv1);
-        listaRiviste.add(riv2);
-        listaRiviste.add(riv3);
+        magazineList.add(riv1);
+        magazineList.add(riv2);
+        magazineList.add(riv3);
 
         //Archivio sarà una lista formata dall'unione di lista libri e lista riviste
-        archivio = Stream.concat(listaLibri.stream(), listaRiviste.stream()).collect(Collectors.toList());
-        System.out.println(archivio);
+        archive = Stream.concat(bookList.stream(), magazineList.stream()).collect(Collectors.toList());
+        System.out.println(archive);
 
         //MENU
         int start = 1;
@@ -77,20 +80,20 @@ public class Main {
                     + "8 - per cancellare il file %n"
                     + "0 - per terminare il programma %n");
             try {
-                start = Integer.parseInt(sc.nextLine());
+                start = Integer.parseInt(scanner.nextLine());
 
                 switch (start) {
                     case 1:
                         boolean choose = true;
                         while(choose) {
                             System.out.printf("Scegli tra 1-Rivista  2-Libro: " );
-                            int res1 = Integer.parseInt(sc.nextLine());
+                            int res1 = Integer.parseInt(scanner.nextLine());
 
                             if(res1 == 1) {
-                                aggiungiElemento(listaRiviste);
+                                aggiungiElemento(magazineList);
                                 choose = false;
                             }else if(res1 == 2) {
-                                aggiungiElemento(listaLibri);
+                                aggiungiElemento(bookList);
                                 choose = false;
                             }else {
                                 System.out.println("numero digitato incorretto!");
@@ -99,22 +102,22 @@ public class Main {
                         break;
                     case 2:
                         System.out.println("Digita ISBN: " );
-                        String res2 = sc.nextLine();
+                        String res2 = scanner.nextLine();
                         removeByIsbn(res2);
                         break;
                     case 3:
                         System.out.println("Digita ISBN: " );
-                        String res3 = sc.nextLine();
+                        String res3 = scanner.nextLine();
                         searchByIsbn(res3);
                         break;
                     case 4:
                         System.out.println("Digita anno, mese e giorno(Y-M-D): " );
-                        String res4 = sc.nextLine();
+                        String res4 = scanner.nextLine();
                         searchByYear(LocalDate.parse(res4));
                         break;
                     case 5:
                         System.out.println("Digita autore: " );
-                        String res5 = sc.nextLine();
+                        String res5 = scanner.nextLine();
                         searchByAuthor(res5);
                         break;
                     case 6:
@@ -150,7 +153,7 @@ public class Main {
     //Features richieste
 
     //Aggiunta di un elemento
-    public static void aggiungiElemento(List<?> unknown) {
+    public static void aggiungiElemento(@org.jetbrains.annotations.NotNull List<?> unknown) {
 
         System.out.println("Inserisci le informazioni richieste ");
 
@@ -159,40 +162,40 @@ public class Main {
             String newIsbn = createIsbn();
 
             System.out.println("Titolo: ");
-            String titolo = sc.nextLine();
+            String titolo = scanner.nextLine();
 
             System.out.println("Anno: ");
-            LocalDate anno = (LocalDate.ofYearDay(Integer.parseInt(sc.nextLine()), 1));
+            LocalDate anno = (LocalDate.ofYearDay(Integer.parseInt(scanner.nextLine()), 1));
 
             System.out.println("Numero di pagine: ");
-            int numeroPagine = Integer.parseInt(sc.nextLine());
+            int numeroPagine = Integer.parseInt(scanner.nextLine());
 
             System.out.println("Autore: ");
-            String autore = sc.nextLine();
+            String autore = scanner.nextLine();
 
             System.out.println("Genere: ");
-            String genere = sc.nextLine();
+            String genere = scanner.nextLine();
 
-            archivio.add(new Book(newIsbn, titolo, anno, numeroPagine, autore, genere));
+            archive.add(new Book(newIsbn, titolo, anno, numeroPagine, autore, genere));
             logger.info("Libro aggiunto");
-            logger.info("Dettagli ibro aggiunto: " + archivio.get((archivio.size())-1).toString());
+            logger.info("Dettagli ibro aggiunto: " + archive.get((archive.size())-1).toString());
 
 
         }else if(unknown.get(0).getClass() == Magazine.class) {
             String isbn = createIsbn();
 
             System.out.println("Titolo: ");
-            String titolo = sc.nextLine();
+            String titolo = scanner.nextLine();
 
             System.out.println("Anno: ");
-            LocalDate anno = (LocalDate.ofYearDay(Integer.parseInt(sc.nextLine()), 1));
+            LocalDate anno = (LocalDate.ofYearDay(Integer.parseInt(scanner.nextLine()), 1));
 
             System.out.println("Numero di pagine: ");
-            int numeroPagine = Integer.parseInt(sc.nextLine());
+            int numeroPagine = Integer.parseInt(scanner.nextLine());
 
             System.out.println(
                     "Periodicita della rivista:" + " 1 - Settimanale" + " 2 - Mensile" + " 3 - Semestrale");
-            int res = Integer.parseInt(sc.nextLine());
+            int res = Integer.parseInt(scanner.nextLine());
             Periodicity periodicita = null;
 
             switch (res) {
@@ -207,7 +210,7 @@ public class Main {
                     break;
             }
 
-            archivio.add(new Magazine(isbn, titolo, anno, numeroPagine, periodicita));
+            archive.add(new Magazine(isbn, titolo, anno, numeroPagine, periodicita));
             logger.info("Rivista aggiunta");
         }else {
             logger.info("Errore");
@@ -216,26 +219,26 @@ public class Main {
 
     //Rimozione di un elemento da ISBN
     public static void removeByIsbn(String isbn) {
-        archivio.removeIf(el-> el.getIsbn().equals(isbn));
+        archive.removeIf(el-> el.getIsbn().equals(isbn));
         logger.info("Elemento rimosso tramite ISBN: " + isbn);
     }
 
     //Ricerca per ISBN
     public static void searchByIsbn(String isbn) {
-        Stream<Element> libro  = archivio.stream().filter(el-> el.getIsbn().equals(isbn));
+        Stream<Element> libro  = archive.stream().filter(el-> el.getIsbn().equals(isbn));
         libro.forEach(el-> logger.info("Libro con ISBN " + isbn + ": " + el.toString()));
     }
 
     //Ricerca x anno di pubblicazione
     public static void searchByYear(LocalDate anno) {
-        Stream<Element> libro  = archivio.stream().filter(el-> el.getYearOfPublication().equals(anno));
+        Stream<Element> libro  = archive.stream().filter(el-> el.getYearOfPublication().equals(anno));
         libro.forEach(el-> logger.info("Libro pubblicato nel " + anno + ": " + el.toString()));
     }
 
     //Ricerca x autore
     public static void searchByAuthor(String autore) {
         Stream<Book> libroAutore =
-                archivio
+                archive
                         .stream()
                         .filter(el -> el instanceof Book).map(e -> (Book) e)
                         .filter(el -> el.getAuthor().equals(autore));
@@ -245,7 +248,7 @@ public class Main {
 
     //Salvataggio su disco(scrivi)
     public static void writeFile() throws IOException {
-        archivio.forEach(el-> {
+        archive.forEach(el-> {
             try {
                 FileUtils.writeStringToFile(fileArchivio, el.toString(), "UTF-8",true);
                 logger.info("Elemento salvato nel file con successo");
@@ -269,7 +272,7 @@ public class Main {
     //Features extra
 
     //crea isbn
-    public static String createIsbn(){
+    public static @NotNull String createIsbn(){
         double d = isbn + Math.random()*Double.MAX_VALUE ;
         String s =String.valueOf(d);
         return s;
