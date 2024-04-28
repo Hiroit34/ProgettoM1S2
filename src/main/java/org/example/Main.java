@@ -90,10 +90,10 @@ public class Main {
                             int res1 = Integer.parseInt(scanner.nextLine());
 
                             if(res1 == 1) {
-                                aggiungiElemento(magazineList);
+                                addNewElement(magazineList);
                                 choose = false;
                             }else if(res1 == 2) {
-                                aggiungiElemento(bookList);
+                                addNewElement(bookList);
                                 choose = false;
                             }else {
                                 System.out.println("numero digitato incorretto!");
@@ -152,8 +152,8 @@ public class Main {
     //METODI
     //Features richieste
 
-    //Aggiunta di un elemento
-    public static void aggiungiElemento(@org.jetbrains.annotations.NotNull List<?> unknown) {
+    //Creo il metodo per aggiungere un nuovo elemento
+    public static void addNewElement(@org.jetbrains.annotations.NotNull List<?> unknown) {
 
         System.out.println("Inserisci le informazioni richieste ");
 
@@ -162,21 +162,21 @@ public class Main {
             String newIsbn = createIsbn();
 
             System.out.println("Titolo: ");
-            String titolo = scanner.nextLine();
+            String title = scanner.nextLine();
 
             System.out.println("Anno: ");
-            LocalDate anno = (LocalDate.ofYearDay(Integer.parseInt(scanner.nextLine()), 1));
+            LocalDate year = (LocalDate.ofYearDay(Integer.parseInt(scanner.nextLine()), 1));
 
             System.out.println("Numero di pagine: ");
-            int numeroPagine = Integer.parseInt(scanner.nextLine());
+            int numberOfPages = Integer.parseInt(scanner.nextLine());
 
             System.out.println("Autore: ");
-            String autore = scanner.nextLine();
+            String author = scanner.nextLine();
 
             System.out.println("Genere: ");
-            String genere = scanner.nextLine();
+            String genre = scanner.nextLine();
 
-            archive.add(new Book(newIsbn, titolo, anno, numeroPagine, autore, genere));
+            archive.add(new Book(newIsbn, title, year, numberOfPages, author, genre));
             logger.info("Libro aggiunto");
             logger.info("Dettagli ibro aggiunto: " + archive.get((archive.size())-1).toString());
 
@@ -185,32 +185,32 @@ public class Main {
             String isbn = createIsbn();
 
             System.out.println("Titolo: ");
-            String titolo = scanner.nextLine();
+            String title = scanner.nextLine();
 
             System.out.println("Anno: ");
-            LocalDate anno = (LocalDate.ofYearDay(Integer.parseInt(scanner.nextLine()), 1));
+            LocalDate year = (LocalDate.ofYearDay(Integer.parseInt(scanner.nextLine()), 1));
 
             System.out.println("Numero di pagine: ");
-            int numeroPagine = Integer.parseInt(scanner.nextLine());
+            int numberOfYear = Integer.parseInt(scanner.nextLine());
 
             System.out.println(
                     "Periodicita della rivista:" + " 1 - Settimanale" + " 2 - Mensile" + " 3 - Semestrale");
             int res = Integer.parseInt(scanner.nextLine());
-            Periodicity periodicita = null;
+            Periodicity periodicity = null;
 
             switch (res) {
                 case 1:
-                    periodicita = Periodicity.WEEKLY;
+                    periodicity = Periodicity.WEEKLY;
                     break;
                 case 2:
-                    periodicita = Periodicity.MONTHLY;
+                    periodicity = Periodicity.MONTHLY;
                     break;
                 case 3:
-                    periodicita = Periodicity.SIX_MONTHLY;
+                    periodicity = Periodicity.SIX_MONTHLY;
                     break;
             }
 
-            archive.add(new Magazine(isbn, titolo, anno, numeroPagine, periodicita));
+            archive.add(new Magazine(isbn, title, year, numberOfYear, periodicity));
             logger.info("Rivista aggiunta");
         }else {
             logger.info("Errore");
