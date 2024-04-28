@@ -3,5 +3,5 @@ package data;
 public enum Periodicity {
     WEEKLY,
     MONTHLY,
-    SIX_MONTH;
+    SIX_MONTHLY;
 }
