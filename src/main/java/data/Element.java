@@ -1,12 +1,14 @@
 package data;
 
+import java.time.LocalDate;
+
 public class Element {
     private String isbn;
     private String title;
-    private int yearOfPublication;
+    private LocalDate yearOfPublication;
     private int numberOfPages;
 
-    public Element(String isbn, int yearOfPublication, int numberOfPages, String title){
+    public Element(String isbn, LocalDate yearOfPublication, int numberOfPages, String title){
         this.isbn = isbn;
         this.title = title;
         this.yearOfPublication = yearOfPublication;
@@ -21,7 +23,7 @@ public class Element {
         return title;
     }
 
-    public int getYearOfPublication() {
+    public LocalDate getYearOfPublication() {
         return yearOfPublication;
     }
 

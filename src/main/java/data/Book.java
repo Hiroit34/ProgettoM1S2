@@ -1,5 +1,7 @@
 package data;
 
+import java.time.LocalDate;
+
 public class Book extends Element{
     private String author;
     private String genre;
@@ -20,7 +22,7 @@ public class Book extends Element{
         this.genre = genre;
     }
 
-    public Book(String title, String isbn, int yearOfPublication, int numberOfPages, String author, String genre) {
+    public Book(String title, String isbn, LocalDate yearOfPublication, int numberOfPages, String author, String genre) {
         super(title, yearOfPublication, numberOfPages, isbn);
         this.author = author;
         this.genre = genre;
