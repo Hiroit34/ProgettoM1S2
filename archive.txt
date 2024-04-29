@@ -1,0 +1,1 @@
+data.Book@5123a213Libri{autore='Luis Sepúlveda', genere='Narrativa'}data.Book@57f23557Libri{autore='Luis Sepúlveda', genere='Narrativa'}data.Book@3d0f8e03Libri{autore='Michail Afanas'evič Bulgakov', genere='Narrativa fantasy'}data.Magazine@6366ebe0Riviste{periodicità=MONTHLY}data.Magazine@6c9f5c0dRiviste{periodicità=WEEKLY}data.Magazine@de3a06fRiviste{periodicità=SIX_MONTHLY}
