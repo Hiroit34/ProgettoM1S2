@@ -46,20 +46,11 @@ public class Main {
 
         //Aggiungo qualche elemento alle liste libri/riviste
         Book book0 = new Book("000", "Il vecchio che leggeva romanzi d'amore", LocalDate.parse("1989-03-04"), 230, "Luis Sepúlveda", "Narrativa");
-        Book book1 = new Book("001", "Storia di una gabbianella e del gatto che le insegnò a volare", LocalDate.parse("1988-10-01"), 100, "Luis Sepúlveda", "Narrativa");
-        Book book2 = new Book("002", "Il maestro e Margherita", LocalDate.parse("1967-10-12"), 120, "Michail Afanas'evič Bulgakov", "Narrativa fantasy");
 
         Magazine magazine0 = new Magazine("004", "Vogue", LocalDate.parse("1892-08-10"), 90, Periodicity.MONTHLY);
-        Magazine magazine1 = new Magazine("005", "Art-attack", LocalDate.parse("2000-12-10"), 50, Periodicity.WEEKLY);
-        Magazine magazine2 = new Magazine("006", "Rivista dei gatti", LocalDate.parse("2020-11-05"), 80, Periodicity.SIX_MONTHLY);
 
         bookList.add(book0);
-        bookList.add(book1);
-        bookList.add(book2);
-
         magazineList.add(magazine0);
-        magazineList.add(magazine1);
-        magazineList.add(magazine2);
 
         //Archivio sarà una lista formata dall'unione di lista libri e lista riviste
         archive = Stream.concat(bookList.stream(), magazineList.stream()).collect(Collectors.toList());
